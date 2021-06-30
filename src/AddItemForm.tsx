@@ -1,36 +1,47 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
-type EditableSpanPropsType = {
-    title: string
-    changeTitle: (title: string) => void
+
+type AddItemFormPropsType = {
+    addItem: (title: string) => void
 }
 
-function EditableSpan (props: EditableSpanPropsType) {
-    const [editMode, setEditMode] = useState<boolean>(false)
-    const [title, setTitle] = useState<string>(props.title)
-
-
-    const onEditMode = () => setEditMode(true);
-    const offEditMode = () => {
-        props.changeTitle(title)
-        setEditMode(false);
-    }
+function AddItemForm(props: AddItemFormPropsType) {
+    const [title, setTitle] = useState("")
+    const [error, setError] = useState<boolean>(false)
+    const errorMessage = "Title is required!"
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.charCode === 13) {
+            addItem();
+        }
+    }
+    const addItem = () => {
+        const trimmedTitle = title.trim()
+        if(trimmedTitle) {
+            props.addItem(trimmedTitle)
+        } else {
+            setError(true)
+        }
+        setTitle("")
+    }
 
 
     return (
-        editMode
-            ? <input
-                autoFocus={true}
+        <div>
+            <input
                 value={title}
-                onBlur={offEditMode}
-                onChange={onChangeHandler}
+                onChange={ onChangeHandler }
+                onKeyPress={ onKeyPressHandler }
+                style={error ? {border: "3px solid red"} : {}}
             />
-            : <span onDoubleClick={onEditMode}>{props.title}</span>
+            <button onClick={addItem}>+</button>
+            <div style={error ? {color: "red"} : {display: "none"}}>
+                {errorMessage}
+            </div>
+        </div>
     )
 }
-
-export default EditableSpan;
+export default  AddItemForm;
