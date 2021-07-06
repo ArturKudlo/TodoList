@@ -3,6 +3,14 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import AddItemForm from "./AddItemForm";
+import {AppBar, Container, Paper} from "@material-ui/core";
+import {IconButton} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
+import {Button} from "@material-ui/core";
+import {Toolbar} from "@material-ui/core";
+import {Menu} from "@material-ui/icons";
+import {Grid} from "@material-ui/core";
+
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -121,6 +129,8 @@ function App() {
         }
 //
         return (
+            <Grid item key={tl.id}>
+            <Paper style={{padding: "20px"}} elevation={5}>
             <Todolist
                 todoListID={tl.id}
                 filter={tl.filter}
@@ -134,13 +144,34 @@ function App() {
                 changeTaskTitle={changeTaskTitle}
                 changeTodoListTitle={changeTodoListTitle}
             />
+            </Paper>
+            </Grid>
         )
     })
 // GUI:
     return (
         <div className="App">
-            <AddItemForm addItem={addTodoList} />
-            {todoListsComponents}
+            <AppBar position="static">
+                <Toolbar style={{justifyContent: "space-between"}}>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <Menu />
+                    </IconButton>
+                    <Typography variant="h6">
+                        Todolists
+                    </Typography>
+                    <Button
+                        variant={"outlined"}
+                        color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: "20px 0"}}>
+                    <AddItemForm addItem={addTodoList} />
+                </Grid>
+                <Grid container spacing={5}>
+                    {todoListsComponents}
+                </Grid>
+            </Container>
         </div>
     );
 }
