@@ -14,7 +14,7 @@ import {Grid} from "@material-ui/core";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -37,7 +37,6 @@ function App() {
         {id: todoListID_1, title: "What to learn", filter: "all"},
         {id: todoListID_2, title: "What to buy", filter: "all"}
     ])
-
     const [tasks, setTasks] = useState<TaskStateType>({
         [todoListID_1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
@@ -83,6 +82,8 @@ function App() {
         })
         setTasks({...tasks});
     }
+
+
     function changeTodoListFilter(value: FilterValuesType, todoListID: string) {
         setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, filter: value} : tl))
     }
