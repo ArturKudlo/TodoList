@@ -38,7 +38,6 @@ function App() {
         ]
     });
 
-
     function removeTask(id: string, todolistId: string) {
         //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
@@ -79,7 +78,7 @@ function App() {
         //изменим таску, если она нашлась
         if (task) {
             task.title = newTitle;
-            // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой +
+            // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
             setTasks({...tasks});
         }
     }
